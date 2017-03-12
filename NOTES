@@ -1,0 +1,27 @@
+
+
+# Software
+
+## Music
+
+## Navi
+
+### Map data
+
+Download MapBox tiles, i.e. from https://openmaptiles.org
+
+```
+npm install tileserver-gl-light tileserver-gl-styles
+$(npm bin)/tileserver-gl-light germany.mbtiles -V
+
+```
+
+http://gis.stackexchange.com/questions/125037/self-hosting-mapbox-vector-tiles
+
+
+## Phone Connectivity
+
+### Relevant Bluetooth protocols
+- Message Access Profile (MAP), send and receive SMS
+- Phone Book Access Profile (PBAP, PBA), display names, download phonebook, issue calls
+- Advanced Audio Distribution Profile (A2DP), Bluetooth Audio Streaming
