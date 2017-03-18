@@ -1,0 +1,9 @@
+system:
+  log: DEBUG
+maps: # Config for maps
+  path: maps
+  fonts: fonts
+  styles: styles
+  # if you want to change your leaflet config, do it here
+  leaflet:
+    config: leaflet.json
