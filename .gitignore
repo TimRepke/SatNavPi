@@ -4,4 +4,6 @@ libjunk/*
 maps/tiles/*
 tilemill/*
 .idea/*
+stxxl/*
+osrm-backend/*
 
