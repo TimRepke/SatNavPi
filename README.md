@@ -1,4 +1,11 @@
 
+**This project is WIP! Nothing works at all and it's under heavy construction.**  
+
+
+check this as config parser
+http://profig.readthedocs.io/en/default/guide.html
+
+
 # Install
 
 ## NodeJS stuff
@@ -17,6 +24,38 @@ npm install tileserver-gl-light yaml log4js
 We want a fully offline system.
 Therefore all map data is locally and needs software to render and serve it as well as find routes on the map.
 Also we want to be able to easily query for locations.
+
+
+### Download and Build Valhalla
+```
+sudo pacman -S protobuf geos libspatialite jq
+
+git clone git@github.com:zeromq/czmq.git
+cd czmq
+git checkout tags/v4.0.2
+./autogen.sh
+./configure --prefix=$HOME/workspace/satnavpi/libs
+make check
+make install
+
+cd ..
+git clone git@github.com:kevinkreiser/prime_server.git
+cd prime_server
+git checkout tags/0.6.3
+./autogen.sh
+CFLAGS=-I$HOME/workspace/satnavpi/libs/include LDFLAGS=-L$HOME/workspace/satnavpi/libs/lib PKG_CONFIG_PATH=$HOME/workspace/satnavpi/libs/lib/pkgconfig ./configure --prefix=$HOME/workspace/satnavpi/libs
+make
+make install
+
+cd ..
+git clone git@github.com:valhalla/valhalla.git
+git checkout tags/2.1.8
+cd valhalla
+git submodule update --init --recursive
+./autogen.sh
+CFLAGS=-I$HOME/workspace/satnavpi/libs/include LDFLAGS=-L$HOME/workspace/satnavpi/libs/lib PKG_CONFIG_PATH=$HOME/workspace/satnavpi/libs/lib/pkgconfig ./configure --prefix=$HOME/workspace/satnavpi/libs
+make test -j$(nproc)
+```
 
 ### Download and Build OSRM
 
@@ -66,7 +105,7 @@ echo "disk=<path-to-project>/satnavpi/maps/tiles/stxxl,20000,syscall" > .stxxl
 
 You can test this (why not):
 ```
-../../osrm-backend/build/osrm-routed
+../../osrm-backend/build/osrm-routed germany-latest.osrm
 open: http://localhost:5000/route/v1/driving/13.388860,52.517037;13.385983,52.496891?steps=true
 ```
 
@@ -86,3 +125,11 @@ For processing, a 20GB temporary file (see the .stxxl config) was sufficient, it
 - [Mapbox GL offline](https://www.mapbox.com/blog/vector-tiles/)
 - [Leaflet Routing Machine](http://www.liedman.net/leaflet-routing-machine/)
 - [TileserverGL for offline Vector rendering](https://github.com/klokantech/tileserver-gl)
+- https://github.com/perliedman/leaflet-routing-machine/tree/v3.2.5/dist
+
+# start
+```
+npm run watch
+osrm-backend/build/osrm-routed maps/tiles/germany-latest.osrm
+
+```
